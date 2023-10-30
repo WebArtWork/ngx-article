@@ -140,7 +140,20 @@ export class ArticlesComponent {
 					}
 				]
 			});
-		}
+		},
+		buttons: [
+			{
+				icon: 'cloud_download',
+				click: (doc: Article) => {
+					this._form
+						.modalUnique<Article>(
+							'article',
+							'url',
+							doc
+						);
+				}
+			}
+		]
 	};
 
 	get rows(): Article[] {
