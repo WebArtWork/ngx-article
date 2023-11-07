@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { MongoService, AlertService } from 'wacom';
 
 export interface Article {
-	_id: string;
+	_id?: string;
 	name: string;
 	short: string;
 	description: string;
-	global: boolean;
+	isTemplate: boolean;
+	template: string;
 }
 
 @Injectable({
@@ -15,20 +16,10 @@ export interface Article {
 export class ArticleService {
 	articles: Article[] = [];
 
-	global: Article[] = [];
-
-	mine: Article[] = [];
-
 	_articles: any = {};
 
 	new(): Article {
-		return {
-			_id: '',
-			name: '',
-			short: '',
-			description: '',
-			global: false
-		}
+		return {} as Article;
 	}
 
 	constructor(
@@ -37,15 +28,11 @@ export class ArticleService {
 	) {
 		this.articles = mongo.get('article', {
 			query: {
-				global: (doc: Article) => doc.global,
-				mine: (doc: Article) => !doc.global
+				isTemplate: (doc: Article) => doc.isTemplate,
+				isNotTemplate: (doc: Article) => !doc.isTemplate
 			}
 		}, (arr: any, obj: any) => {
 			this._articles = obj;
-
-			this.global = obj.global;
-
-			this.mine = obj.mine;
 		});
 	}
 

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CoreModule } from 'src/app/core';
 import { ArticlesComponent } from './articles.component';
 import { Routes, RouterModule } from '@angular/router';
+import { ArticlesTemplateComponent } from './articles/articles-template/articles-template.component';
 
 const routes: Routes = [{
 	path: '',
@@ -14,7 +15,8 @@ const routes: Routes = [{
 		CoreModule
 	],
 	declarations: [
-		ArticlesComponent
+		ArticlesComponent,
+		ArticlesTemplateComponent
 	],
 	providers: []
 
