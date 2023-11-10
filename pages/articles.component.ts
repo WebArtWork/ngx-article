@@ -186,9 +186,21 @@ export class ArticlesComponent {
 	get rows(): Article[] {
 		return this._router.url === '/admin/noveltys'
 			? this._as._articles.isTemplate
-			: this._router.url === '/admin/noveltylinks'
-				? this.links
-				: this._as._articles.isNotTemplate;
+			: this._router.url === '/admin/noveltylinks' ||
+			  this._router.url === '/admin/articles'
+			? this.links
+			: this._as._articles.isNotTemplate;
+	}
+	get title(): string {
+		if (this._router.url === '/admin/noveltys') {
+			return 'Noveltys'
+		}
+
+		if (this._router.url === '/admin/noveltylinks') {
+			return 'Articles Links'
+		}
+
+		return 'Articles';
 	}
 
 
@@ -206,6 +218,10 @@ export class ArticlesComponent {
 		if (this._router.url === '/admin/noveltylinks') {
 			this._http.get('/api/article/getlinks', (links: Article[]) => {
 				links.forEach((article: Article) => this.links.push(article));
+			});
+		} else if (this._router.url === '/admin/articles') {
+			this._http.get('/api/article/getadmin', (links: Article[]) => {
+				links.forEach((article: Article)=>this.links.push(article));
 			});
 		}
 	}
