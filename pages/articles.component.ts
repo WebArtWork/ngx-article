@@ -168,7 +168,10 @@ export class ArticlesComponent {
 						}
 					}
 				],
-		headerButtons: [
+		headerButtons:
+		this._router.url === '/manage/articles'
+		? null
+		: [
 			{
 				text: 'Add from articles',
 				click: () => {
