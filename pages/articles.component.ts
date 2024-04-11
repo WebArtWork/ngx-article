@@ -86,20 +86,6 @@ export class ArticlesComponent {
 						value: 'Reference'
 					}
 				]
-			},
-			{
-				name: 'Select',
-				key: 'tag',
-				fields: [
-					{
-						name: 'Placeholder',
-						value: 'Select tag'
-					},
-					{
-						name: 'Items',
-						value: this._ts.group('article')
-					}
-				]
 			}
 		]
 	});
@@ -229,4 +215,3 @@ export class ArticlesComponent {
 		}
 	}
 }
-
