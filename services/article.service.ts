@@ -8,6 +8,7 @@ export interface Article {
 	description: string;
 	isTemplate: boolean;
 	template: string;
+	tags: string[];
 }
 
 @Injectable({

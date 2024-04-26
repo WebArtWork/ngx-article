@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { CoreModule } from 'src/app/core';
 import { ArticlesComponent } from './articles.component';
 import { Routes, RouterModule } from '@angular/router';
-import { ArticlesTemplateComponent } from './articles/articles-template/articles-template.component';
+import { ArticlesTemplateComponent } from './articles-template/articles-template.component';
+import { ArticlesCreateComponent } from './articles-create/articles-create.component';
 
 const routes: Routes = [{
 	path: '',
@@ -16,7 +17,8 @@ const routes: Routes = [{
 	],
 	declarations: [
 		ArticlesComponent,
-		ArticlesTemplateComponent
+		ArticlesTemplateComponent,
+  ArticlesCreateComponent
 	],
 	providers: []
 
