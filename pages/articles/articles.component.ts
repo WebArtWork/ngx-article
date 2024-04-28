@@ -1,14 +1,26 @@
 import { Component } from '@angular/core';
 import { FormService } from 'src/app/modules/form/form.service';
-import { ArticleService, Article } from 'src/app/modules/article/services/article.service';
+import {
+	ArticleService,
+	Article
+} from 'src/app/modules/article/services/article.service';
 import { Router } from '@angular/router';
 import { FormInterface } from 'src/app/modules/form/interfaces/form.interface';
-import { AlertService, CoreService, HttpService, MongoService, StoreService } from 'wacom';
+import {
+	AlertService,
+	CoreService,
+	HttpService,
+	MongoService,
+	StoreService
+} from 'wacom';
 import { TranslateService } from 'src/app/modules/translate/translate.service';
 import { Tag, TagService } from 'src/app/modules/tag/services/tag.service';
 import { ArticlesTemplateComponent } from './articles-template/articles-template.component';
 import { ModalService } from 'src/app/modules/modal/modal.service';
-import { Store, StoreService as _StoreService } from 'src/app/modules/store/services/store.service';
+import {
+	Store,
+	StoreService as _StoreService
+} from 'src/app/modules/store/services/store.service';
 import { ArticlesCreateComponent } from './articles-create/articles-create.component';
 import { UserService } from 'src/app/core';
 
@@ -120,90 +132,100 @@ export class ArticlesComponent {
 			this._router.url === '/admin/noveltylinks'
 				? null
 				: () => {
-					this._form
-						.modal<Article>(this.form, {
-							label: 'Create',
-							click: (created: unknown, close: () => void) => {
-								(created as Article).isTemplate =
-									this._router.url === '/admin/noveltys'
-								this._as.create(created as Article);
-								close();
-							}
-						})
-						console.log(this._router.url === '/admin/noveltys')
-				},
+						this._form.modal<Article>(
+							this.form,
+							{
+								label: 'Create',
+								click: (
+									created: unknown,
+									close: () => void
+								) => {
+									(created as Article).isTemplate =
+										this._router.url === '/admin/noveltys';
+									this._as.create(
+										created as Article,
+										this.setArticles.bind(this)
+									);
+									close();
+								}
+							},
+							this.tag ? { tags: [this.tag] } : {}
+						);
+				  },
 		update:
 			this._router.url === '/admin/noveltylinks'
 				? null
 				: (doc: Article) => {
-					this._form
-						.modal<Article>(this.form, [], doc)
-						.then((updated: Article) => {
-							this._core.copy(updated, doc);
-							this._as.save(doc);
-						});
-				},
+						this._form
+							.modal<Article>(this.form, [], doc)
+							.then((updated: Article) => {
+								this._core.copy(updated, doc);
+								this._as.save(doc);
+							});
+				  },
 		delete:
 			this._router.url === '/admin/noveltylinks'
 				? null
 				: (doc: Article) => {
-					this._alert.question({
-						text: this._translate.translate(
-							'Common.Are you sure you want to delete this article?'
-						),
-						buttons: [
-							{
-								text: this._translate.translate('Common.No')
-							},
-							{
-								text: this._translate.translate('Common.Yes'),
-								callback: () => {
-									this._as.delete(doc);
+						this._alert.question({
+							text: this._translate.translate(
+								'Common.Are you sure you want to delete this article?'
+							),
+							buttons: [
+								{
+									text: this._translate.translate('Common.No')
+								},
+								{
+									text: this._translate.translate(
+										'Common.Yes'
+									),
+									callback: () => {
+										this._as.delete(doc);
+									}
 								}
-							}
-						]
-					});
-				},
+							]
+						});
+				  },
 		buttons:
 			this._router.url === '/admin/noveltylinks'
 				? null
 				: [
-					{
-						icon: 'cloud_download',
-						click: (doc: Article) => {
-							this._form.modalUnique<Article>(
+						{
+							icon: 'cloud_download',
+							click: (doc: Article) => {
+								this._form.modalUnique<Article>(
 									'article',
 									'url',
 									doc
 								);
+							}
 						}
-					}
-				],
+				  ],
 		headerButtons:
-		this._router.url === '/manage/articles'
-		? null
-		: [
-			this._us.role('admin') || this._us.role('agent')
-				? {
-						icon: 'add_circle',
-						click: () => {
-							this._modal.show({
-								component: ArticlesCreateComponent,
-								tag: this.tag
-							});
-						}
-				  }
-				: null
-			// {
-			// 	text: 'Add from articles',
-			// 	click: () => {
-			// 		this._modal.show({
-			// 			component: ArticlesTemplateComponent,
-			// 			class: 'forms_modal'
-			// 		});
-			// 	}
-			// }
-		]
+			this._router.url === '/manage/articles'
+				? null
+				: [
+						this._us.role('admin') || this._us.role('agent')
+							? {
+									icon: 'add_circle',
+									click: () => {
+										this._modal.show({
+											component: ArticlesCreateComponent,
+											tag: this.tag
+										});
+									}
+							  }
+							: null
+						// {
+						// 	text: 'Add from articles',
+						// 	click: () => {
+						// 		this._modal.show({
+						// 			component: ArticlesTemplateComponent,
+						// 			class: 'forms_modal'
+						// 		});
+						// 	}
+						// }
+				  ]
 	};
 
 	links: Article[] = [];
@@ -218,11 +240,11 @@ export class ArticlesComponent {
 	// }
 	get title(): string {
 		if (this._router.url === '/admin/noveltys') {
-			return 'Noveltys'
+			return 'Noveltys';
 		}
 
 		if (this._router.url === '/admin/noveltylinks') {
-			return 'Articles Links'
+			return 'Articles Links';
 		}
 
 		return 'Articles';
@@ -337,7 +359,7 @@ export class ArticlesComponent {
 			});
 		} else if (this._router.url === '/admin/articles') {
 			this._http.get('/api/article/getadmin', (links: Article[]) => {
-				links.forEach((article: Article)=>this.links.push(article));
+				links.forEach((article: Article) => this.links.push(article));
 			});
 		}
 	}
