@@ -22,7 +22,7 @@ import {
 	StoreService as _StoreService
 } from 'src/app/modules/store/services/store.service';
 import { ArticlesCreateComponent } from './articles-create/articles-create.component';
-import { UserService } from 'src/app/core';
+import { UserService } from 'src/app/modules/user/services/user.service';
 
 @Component({
 	templateUrl: './articles.component.html',
