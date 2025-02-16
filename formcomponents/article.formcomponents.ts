@@ -4,32 +4,116 @@ export const articleFormComponents = {
 	components: [
 		{
 			name: 'Text',
-			key: 'name',
+			key: 'title',
 			focused: true,
 			fields: [
 				{
 					name: 'Placeholder',
-					value: 'fill article title',
+					value: 'fill article title'
 				},
 				{
 					name: 'Label',
-					value: 'Title',
+					value: 'Title'
 				}
 			]
 		},
 		{
 			name: 'Text',
+			key: 'link',
+			fields: [
+				{
+					name: 'Placeholder',
+					value: 'fill article link'
+				},
+				{
+					name: 'Label',
+					value: 'Link'
+				}
+			]
+		},
+		{
+			name: 'Text',
+			key: 'video',
+			fields: [
+				{
+					name: 'Placeholder',
+					value: 'fill article video'
+				},
+				{
+					name: 'Label',
+					value: 'Video'
+				}
+			]
+		},
+		{
+			name: 'Text',
+			key: 'shortDescription',
+			fields: [
+				{
+					name: 'Placeholder',
+					value: 'fill articles short description'
+				},
+				{
+					name: 'Label',
+					value: 'Short Description'
+				}
+			]
+		},
+		{
+			name: 'Photo',
+			key: 'thumb',
+			fields: [
+				{
+					name: 'Label',
+					value: 'Thumb'
+				}
+			]
+		},
+		{
+			name: 'Html',
 			key: 'description',
 			fields: [
 				{
 					name: 'Placeholder',
-					value: 'fill article description',
+					value: 'fill articles description'
 				},
 				{
 					name: 'Label',
-					value: 'Description',
+					value: 'Description'
+				}
+			]
+		},
+		{
+			name: 'Date',
+			key: 'published',
+			fields: [
+				{
+					name: 'Label',
+					value: 'Date'
+				}
+			]
+		},
+		{
+			name: 'Select',
+			key: 'tags',
+			fields: [
+				{
+					name: 'Items',
+					value: []
+				},
+				{
+					name: 'Placeholder',
+					value: 'Select tags'
+				},
+				{
+					name: 'Label',
+					value: 'Tags'
+				},
+				{
+					name: 'Multiple',
+					value: true
 				}
 			]
 		}
 	]
-}
+};
