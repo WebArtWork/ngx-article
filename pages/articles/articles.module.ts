@@ -7,6 +7,10 @@ const routes: Routes = [
 	{
 		path: '',
 		component: ArticlesComponent
+	},
+	{
+		path: 'link/:linkId',
+		component: ArticlesComponent
 	}
 ];
 

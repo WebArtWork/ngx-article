@@ -7,14 +7,15 @@ import { TranslateService } from 'src/app/core/modules/translate/translate.servi
 import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
 import { articleFormComponents } from '../../formcomponents/article.formcomponents';
 import { firstValueFrom } from 'rxjs';
+import { FormComponentInterface } from 'src/app/core/modules/form/interfaces/component.interface';
 
 @Component({
 	templateUrl: './articles.component.html',
 	styleUrls: ['./articles.component.scss'],
-	standalone: false,
+	standalone: false
 })
 export class ArticlesComponent {
-	columns = ['name', 'description'];
+	columns = ['title', 'shortDescription'];
 
 	form: FormInterface = this._form.getForm('article', articleFormComponents);
 
@@ -24,9 +25,28 @@ export class ArticlesComponent {
 		setPerPage: this._articleService.setPerPage.bind(this._articleService),
 		allDocs: false,
 		create: (): void => {
+			this._form.setValue(
+				this.form,
+				'linkCategory',
+				'Items',
+				this._core.linkCollections
+			);
+
+			if (this._form.getComponent(this.form, 'linkDoc')) {
+				(
+					this._form.getComponent(
+						this.form,
+						'linkDoc'
+					) as FormComponentInterface
+				).hidden = true;
+			}
+
 			this._form.modal<Article>(this.form, {
 				label: 'Create',
-				click: async (created: unknown, close: () => void) => {
+				click: async (
+					created: unknown,
+					close: () => void
+				): Promise<void> => {
 					close();
 
 					this._preCreate(created as Article);
@@ -36,7 +56,7 @@ export class ArticlesComponent {
 					);
 
 					this.setRows();
-				},
+				}
 			});
 		},
 		update: (doc: Article): void => {
@@ -55,17 +75,19 @@ export class ArticlesComponent {
 				),
 				buttons: [
 					{
-						text: this._translate.translate('Common.No'),
+						text: this._translate.translate('Common.No')
 					},
 					{
 						text: this._translate.translate('Common.Yes'),
 						callback: async (): Promise<void> => {
-							await firstValueFrom(this._articleService.delete(doc));
+							await firstValueFrom(
+								this._articleService.delete(doc)
+							);
 
 							this.setRows();
-						},
-					},
-				],
+						}
+					}
+				]
 			});
 		},
 		buttons: [
@@ -73,28 +95,28 @@ export class ArticlesComponent {
 				icon: 'cloud_download',
 				click: (doc: Article): void => {
 					this._form.modalUnique<Article>('article', 'url', doc);
-				},
-			},
+				}
+			}
 		],
 		headerButtons: [
 			{
 				icon: 'playlist_add',
 				click: this._bulkManagement(),
-				class: 'playlist',
+				class: 'playlist'
 			},
 			{
 				icon: 'edit_note',
 				click: this._bulkManagement(false),
-				class: 'edit',
-			},
-		],
+				class: 'edit'
+			}
+		]
 	};
 
 	rows: Article[] = [];
 
 	constructor(
-		private _translate: TranslateService,
 		private _articleService: ArticleService,
+		private _translate: TranslateService,
 		private _alert: AlertService,
 		private _form: FormService,
 		private _core: CoreService
@@ -137,7 +159,8 @@ export class ArticlesComponent {
 						for (const article of this.rows) {
 							if (
 								!articles.find(
-									(localArticle) => localArticle._id === article._id
+									(localArticle) =>
+										localArticle._id === article._id
 								)
 							) {
 								await firstValueFrom(
@@ -148,7 +171,8 @@ export class ArticlesComponent {
 
 						for (const article of articles) {
 							const localArticle = this.rows.find(
-								(localArticle) => localArticle._id === article._id
+								(localArticle) =>
+									localArticle._id === article._id
 							);
 
 							if (localArticle) {

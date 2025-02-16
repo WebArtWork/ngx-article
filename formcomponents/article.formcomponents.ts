@@ -114,6 +114,42 @@ export const articleFormComponents = {
 					value: true
 				}
 			]
+		},
+		{
+			name: 'Select',
+			key: 'linkCategory',
+			fields: [
+				{
+					name: 'Items',
+					value: []
+				},
+				{
+					name: 'Placeholder',
+					value: 'Select documents'
+				},
+				{
+					name: 'Label',
+					value: 'Documents'
+				}
+			]
+		},
+		{
+			name: 'Select',
+			key: 'linkDoc',
+			fields: [
+				{
+					name: 'Items',
+					value: []
+				},
+				{
+					name: 'Placeholder',
+					value: 'Select document'
+				},
+				{
+					name: 'Label',
+					value: 'Document'
+				}
+			]
 		}
 	]
 };
