@@ -9,7 +9,7 @@ const routes: Routes = [
 		component: ArticlesComponent
 	},
 	{
-		path: 'link/:linkId',
+		path: 'link/:linkRef/:linkId',
 		component: ArticlesComponent
 	}
 ];

@@ -117,7 +117,7 @@ export const articleFormComponents = {
 		},
 		{
 			name: 'Select',
-			key: 'linkCategory',
+			key: 'linkRef',
 			fields: [
 				{
 					name: 'Items',
@@ -135,7 +135,7 @@ export const articleFormComponents = {
 		},
 		{
 			name: 'Select',
-			key: 'linkDoc',
+			key: 'linkId',
 			fields: [
 				{
 					name: 'Items',

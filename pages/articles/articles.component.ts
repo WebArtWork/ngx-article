@@ -25,43 +25,40 @@ export class ArticlesComponent {
 		setPerPage: this._articleService.setPerPage.bind(this._articleService),
 		allDocs: false,
 		create: (): void => {
-			this._form.setValue(
+			this._updateLinks({} as Article);
+
+			this._form.modal<Article>(
 				this.form,
-				'linkCategory',
-				'Items',
-				this._core.linkCollections
-			);
+				{
+					label: 'Create',
+					click: async (
+						created: unknown,
+						close: () => void
+					): Promise<void> => {
+						close();
 
-			if (this._form.getComponent(this.form, 'linkDoc')) {
-				(
-					this._form.getComponent(
-						this.form,
-						'linkDoc'
-					) as FormComponentInterface
-				).hidden = true;
-			}
+						this._preCreate(created as Article);
 
-			this._form.modal<Article>(this.form, {
-				label: 'Create',
-				click: async (
-					created: unknown,
-					close: () => void
-				): Promise<void> => {
-					close();
+						await firstValueFrom(
+							this._articleService.create(created as Article)
+						);
 
-					this._preCreate(created as Article);
-
-					await firstValueFrom(
-						this._articleService.create(created as Article)
-					);
-
-					this.setRows();
+						this.setRows();
+					}
+				},
+				{},
+				(doc: Article) => {
+					this._updateLinks(doc);
 				}
-			});
+			);
 		},
 		update: (doc: Article): void => {
+			this._updateLinks(doc);
+
 			this._form
-				.modal<Article>(this.form, [], doc)
+				.modal<Article>(this.form, [], doc, (_doc: Article) => {
+					this._updateLinks(_doc);
+				})
 				.then((updated: Article) => {
 					this._core.copy(updated, doc);
 
@@ -198,5 +195,32 @@ export class ArticlesComponent {
 
 	private _preCreate(article: Article): void {
 		delete article.__created;
+	}
+
+	private _updateLinks(article: Article): void {
+		this._form.setValue(
+			this.form,
+			'linkRef',
+			'Items',
+			this._core.linkCollections
+		);
+
+		if (this._form.getComponent(this.form, 'linkId')) {
+			(
+				this._form.getComponent(
+					this.form,
+					'linkId'
+				) as FormComponentInterface
+			).hidden = !article.linkRef;
+		}
+
+		if (article.linkRef) {
+			this._form.setValue(
+				this.form,
+				'linkId',
+				'Items',
+				this._core.linkIds[article.linkRef]
+			);
+		}
 	}
 }
